@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nftcentral.Api.ApiLoader;
+import com.example.nftcentral.Api.getAccountNFT;
+import com.example.nftcentral.Modles.NFT;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -20,14 +22,16 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private boolean darkmode = false;
+    private String addr = "0xb504439D29220A07fB5efd6D881df671934C3B51";
+    private ArrayList<NFT> addrNFTS = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -113,9 +117,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
-        ApiLoader apiLoader = new ApiLoader();
-        apiLoader.execute();
+        getAccountNFT apiLoader = new getAccountNFT();
+        apiLoader.execute(addr);
+        try {
+            addrNFTS = apiLoader.get();
+            if(addrNFTS.size() >= 1){
+                TextView textView = findViewById(R.id.contractText);
+                String a = "";
+                for (NFT i: addrNFTS) {
+                    a = a + i.getContract() + "\n" +"Token: "+i.getToken()+"\n";
+                }
+                textView.setText(a);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //apiLoader.getAccountNFTs("0xb504439D29220A07fB5efd6D881df671934C3B51");
         //startActivity(new Intent(this, Login.class));
     }
 }
