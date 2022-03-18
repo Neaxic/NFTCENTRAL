@@ -26,6 +26,8 @@ public class ApiLoader extends AsyncTask<String, String, String> {
     onPostExecute(): Again on the UI thread, this is used for updating the results to the UI once the AsyncTask has finished loading.
      */
 
+    private String apikey = "14ccbb27-63c0-4f86-863e-a7312bf237cb";
+
     protected void onPreExecute() {
         super.onPreExecute();
         // display a progress dialog to show the user what is happening
@@ -33,39 +35,54 @@ public class ApiLoader extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
+        getAccountNFTs("0xb504439D29220A07fB5efd6D881df671934C3B51");
+
+        return null;
+    }
+
+    private void getAccountNFTs(String addr){
         try {
-            URL nftPortEndpoint = new URL("https://api.nftport.xyz/v0/transactions/stats/0x4db1f25d3d98600140dfc18deb7515be5bd293af?chain=ethereum");
+            URL nftPortEndpoint = new URL("https://api.nftport.xyz/v0/accounts/"+addr+"?chain=ethereum");
             HttpsURLConnection myConnection = (HttpsURLConnection) nftPortEndpoint.openConnection();
-            myConnection.setRequestProperty("Authorization", "14ccbb27-63c0-4f86-863e-a7312bf237cb");
+            myConnection.setRequestProperty("Authorization", apikey);
+            myConnection.setRequestProperty("Content-Type", "application/json");
 
             if (myConnection.getResponseCode() == 200) {
-                System.out.println("Success! "+myConnection.getResponseMessage());
                 InputStream responseBody = myConnection.getInputStream();
                 InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
 
                 JsonReader jsonReader = new JsonReader(responseBodyReader);
-                System.out.println(jsonReader);
+                jsonReader.beginObject();
 
-                // dismiss the progress dialog after receiving data from API
-
-                jsonReader.beginObject(); // Start processing the JSON object
                 while (jsonReader.hasNext()) { // Loop through all keys
                     String key = jsonReader.nextName(); // Fetch the next key
-                    System.out.println(key);
-
-                    /*
-                    if (key.equals("organization_url")) { // Check if desired key
-                        // Fetch the value as a String
+                    if (key.equals("response")) { // Check if desired key
                         String value = jsonReader.nextString();
-
-                        // Do something with the value
-                        // ...
-
+                        if(value.equals("OK")){
+                            System.out.println(value);
+                            String keyInner = jsonReader.nextName();
+                            System.out.println(keyInner);
+                            jsonReader.beginArray();
+                            while(jsonReader.hasNext()){
+                                jsonReader.beginObject();
+                                while(jsonReader.hasNext()){
+                                    if(jsonReader.nextName().equals("contract_address")){
+                                        String nftContract = jsonReader.nextString();
+                                        System.out.println(nftContract);
+                                    } else {
+                                        jsonReader.skipValue();
+                                    }
+                                }
+                                jsonReader.endObject();
+                            }
+                            jsonReader.endArray();
+                        }
                         break; // Break out of the loop
                     } else {
                         jsonReader.skipValue(); // Skip values of other keys
-                    }*/
+                    }
                 }
+                jsonReader.close();
 
                 myConnection.disconnect();
             } else {
@@ -77,7 +94,7 @@ public class ApiLoader extends AsyncTask<String, String, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return null;
     }
+
+
 }
