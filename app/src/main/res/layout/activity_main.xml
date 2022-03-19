@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".MainActivity">
 
 
@@ -21,13 +22,15 @@
         app:title="JAVELIN" />
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="332dp"
-        android:layout_marginBottom="620dp"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.907"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/my_toolbar"
+        app:layout_constraintVertical_bias="0.126"
         app:roundPercent="1"
         app:srcCompat="@drawable/ic_launcher_background" />
 
@@ -45,20 +48,21 @@
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
-        android:layout_width="376dp"
-        android:layout_height="177dp"
+        android:layout_width="369dp"
+        android:layout_height="179dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/my_toolbar"
-        app:layout_constraintVertical_bias="0.274" />
+        app:layout_constraintVertical_bias="0.365" />
 
     <TextView
         android:id="@+id/contractText"
         android:layout_width="328dp"
         android:layout_height="289dp"
+        android:fontFamily="@font/lato_regular"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.253"
@@ -71,14 +75,46 @@
         android:layout_width="144dp"
         android:layout_height="60dp"
         android:fontFamily="@font/lato_bold"
-        android:text="Current  \n Portfolio"
+        android:text="Current  \nPortfolio"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/my_toolbar"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintVertical_bias="0.128" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="110dp"
+        android:layout_height="23dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="2,62351"
+        android:textColor="#85EA7A"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/my_toolbar"
+        app:layout_constraintVertical_bias="0.232" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="58dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="15dp"
+        android:background="#00FAFAFA"
+        android:foregroundTint="#00C32F2F"
+        android:tint="#6FDC5C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/my_toolbar"
+        app:layout_constraintVertical_bias="0.215"
+        app:srcCompat="@drawable/ic_baseline_arrow_drop_up_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
