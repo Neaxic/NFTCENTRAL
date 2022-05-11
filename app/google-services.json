@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "249381547527",
+    "firebase_url": "https://nftcentral-6ac4a-default-rtdb.firebaseio.com",
     "project_id": "nftcentral-6ac4a",
     "storage_bucket": "nftcentral-6ac4a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:249381547527:android:47e21ac2a511fa96fd84a2",
+        "mobilesdk_app_id": "1:249381547527:android:a3a711a4db7b29b7fd84a2",
         "android_client_info": {
-          "package_name": "com.example.nftcentral"
+          "package_name": "com.example.nftportfolio"
         }
       },
       "oauth_client": [
