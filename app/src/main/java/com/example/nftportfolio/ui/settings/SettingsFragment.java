@@ -11,9 +11,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.nftportfolio.R;
+import com.example.nftportfolio.databinding.FragmentHomeBinding;
+import com.example.nftportfolio.databinding.FragmentSettingsBinding;
 import com.example.nftportfolio.ui.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,9 +25,10 @@ import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
 
+    private FragmentSettingsBinding binding;
     private SettingsViewModelImpl viewModel;
-    private EditText nickname;
-    private EditText wallet;
+    private EditText nickname, wallet;
+    private Button submit, signout;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -33,36 +37,47 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         viewModel = new ViewModelProvider(this).get(SettingsViewModelImpl.class);
 
-        nickname = (EditText) getActivity().findViewById(R.id.usernameField);
-        wallet = (EditText) getActivity().findViewById(R.id.walletInput);
+        binding();
+        onClick();
 
-        Button d = root.findViewById(R.id.signOut);
-        Button b = root.findViewById(R.id.settingsSubmit);
-        d.setOnClickListener(v -> {
+        loadText();
+
+        return root;
+    }
+
+    private void binding(){
+        nickname = binding.displayInput;
+        wallet = binding.walletInput;
+
+        submit = binding.settingsSubmit;
+        signout = binding.signOut;
+    }
+
+    private void onClick(){
+        signout.setOnClickListener(v -> {
             viewModel.signOut(getActivity());
             //Ved at signout tager tid, og burde reelt skifte view efter success (Men) brugte for lang tid på livedata efter at man skal skifte view i fragmentet
             Intent i = new Intent(getActivity(), LoginActivity.class);
             startActivity(i);
         });
-        b.setOnClickListener(v -> {
-            viewModel.sendSettings(nickname.getText().toString(), "");
+
+        submit.setOnClickListener(v -> {
+            viewModel.sendSettings(nickname.getText().toString(), wallet.getText().toString());
         });
-
-        //loadText();
-
-        return root;
     }
 
     private void loadText(){
-        ArrayList a = viewModel.getUserData();
+        viewModel.getUserData(nickname, wallet);
+    }
 
-        if(a.size() > 0 && nickname != null && wallet != null){
-            nickname.setText(a.get(0).toString());
-            wallet.setText(a.get(1).toString());
-        }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }

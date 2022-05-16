@@ -2,13 +2,18 @@ package com.example.nftportfolio.ui.settings;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.example.nftportfolio.ui.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -40,17 +45,37 @@ public class SettingsViewModelImpl extends ViewModel implements SettingsViewMode
     }
 
     @Override
-    public ArrayList getUserData() {
-        ArrayList tmp = new ArrayList();
-        if(database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Nickname") != null)
-            tmp.add(database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Nickname"));
-        else
-            tmp.add("undefined");
-        if(database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Wallet") != null)
-            tmp.add(database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Wallet"));
-        else
-            tmp.add("undefined");
+    public void getUserData(EditText nick, EditText wallet) {
+        database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Wallet").addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String dbWallet = snapshot.getValue().toString();
+                if(dbWallet != null)
+                    wallet.setText(dbWallet);
+                else
+                    wallet.setText("Wallet");
+            }
 
-        return tmp;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Nickname").addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String dbNick = snapshot.getValue().toString();
+                if(dbNick != null)
+                    nick.setText(dbNick);
+                else
+                    nick.setText("Nickname");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -7,7 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.nftportfolio.Webservices.NFTApi;
 import com.example.nftportfolio.Webservices.NFTResponse;
+import com.example.nftportfolio.Webservices.NFTStatsResponse;
 import com.example.nftportfolio.Webservices.ServiceGenerator;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,10 +19,13 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class NFTRepository {
     private static NFTRepository instance;
-    private final MutableLiveData<NFT> currNFT;
+    private final MutableLiveData<ArrayList<NFT>> listOfNFTs;
+    private MutableLiveData<Double> walletWorth;
 
     private NFTRepository(){
-         currNFT = new MutableLiveData<>();
+         listOfNFTs = new MutableLiveData<>();
+         walletWorth = new MutableLiveData<>();
+         walletWorth.setValue(0.0);
     }
 
     public static synchronized NFTRepository getInstance(){
@@ -29,8 +35,8 @@ public class NFTRepository {
         return instance;
     }
 
-    public LiveData<NFT> getNFTs(){
-        return currNFT;
+    public LiveData<ArrayList<NFT>> getListNFTs(){
+        return listOfNFTs;
     }
 
     public void fetchNFTs(String addr){
@@ -40,8 +46,13 @@ public class NFTRepository {
             @EverythingIsNonNull
             @Override
             public void onResponse(Call<NFTResponse> call, Response<NFTResponse> response){
+                System.out.println("LOG: "+response.raw());
                 if(response.isSuccessful()){
-                    currNFT.setValue(response.body().getNFT());
+                    listOfNFTs.setValue(response.body().getNFT());
+
+                    for (NFT i: listOfNFTs.getValue()) {
+                        fetchStats(i);
+                    }
                 }
             }
 
@@ -51,5 +62,36 @@ public class NFTRepository {
                 Log.i("Retrofit", "Something went wrong :(");
             }
         });
+    }
+
+    public void fetchStats(NFT nft){
+        NFTApi nftApi = ServiceGenerator.getNftApi();
+        Call<NFTStatsResponse> call = nftApi.getStats(nft.getCollection().getSlug());
+        call.enqueue(new Callback<NFTStatsResponse>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<NFTStatsResponse> call, Response<NFTStatsResponse> response){
+                System.out.println("LOG: "+response.raw());
+                if(response.isSuccessful()){
+                    nft.setCollectionStats(response.body().getStats());
+                    walletWorth.setValue(walletWorth.getValue()+response.body().getStats().getFloor_price());
+                }
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<NFTStatsResponse> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+            }
+        });
+    }
+
+    public void clearData(){
+        walletWorth.setValue(0.0);
+        listOfNFTs.setValue(new ArrayList<NFT>());
+    }
+
+    public LiveData<Double> getWalletWorth(){
+        return walletWorth;
     }
 }
