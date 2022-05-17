@@ -58,7 +58,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void setText() {
-        //Liste
         nftList = binding.getRoot().findViewById(R.id.rv);
         nftList.hasFixedSize();
         nftList.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -98,6 +97,8 @@ public class HomeFragment extends Fragment {
         Button d = binding.sortBTN;
         d.setOnClickListener(v -> {
             viewModel.sort();
+            //Reload fragment (Recycler view loader kun nye ved scroll)
+            Navigation.findNavController(v).navigate(R.id.nav_home);
         });
     }
 

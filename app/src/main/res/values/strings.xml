@@ -2,8 +2,8 @@
     <string name="app_name">NFTPORTFOLIO</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Set Nickname in settings</string>
-    <string name="nav_header_subtitle">yourmail@android.com</string>
+    <string name="nav_header_title">NFT PORTFOLIO</string>
+    <string name="nav_header_subtitle">Welcome!</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">idk yet upsis</string>
 

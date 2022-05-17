@@ -28,7 +28,7 @@ public class NFTRepository {
     private NFTRepository(){
          listOfNFTs = new MutableLiveData<>();
          walletWorth = new MutableLiveData<>();
-        selectedNFT = new MutableLiveData<>();
+         selectedNFT = new MutableLiveData<>();
          walletWorth.setValue(0.0);
     }
 

@@ -49,10 +49,11 @@ public class SettingsViewModelImpl extends ViewModel implements SettingsViewMode
         database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Wallet").addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String dbWallet = snapshot.getValue().toString();
-                if(dbWallet != null)
-                    wallet.setText(dbWallet);
-                else
+                if(snapshot.getValue() != null){
+                    String dbWallet = snapshot.getValue().toString();
+                        wallet.setText(dbWallet);
+
+                }   else
                     wallet.setText("Wallet");
             }
 
@@ -65,9 +66,9 @@ public class SettingsViewModelImpl extends ViewModel implements SettingsViewMode
         database.getReference("users").child(mAuth.getCurrentUser().getUid()).child("Nickname").addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String dbNick = snapshot.getValue().toString();
-                if(dbNick != null)
-                    nick.setText(dbNick);
+                if(snapshot.getValue() != null) {
+                    nick.setText(snapshot.getValue().toString());
+                }
                 else
                     nick.setText("Nickname");
             }

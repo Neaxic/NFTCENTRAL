@@ -1,15 +1,11 @@
 package com.example.nftportfolio.ui.home;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.nftportfolio.Repository;
 import com.example.nftportfolio.model.NFT;
 import com.example.nftportfolio.model.NFTRepository;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +27,9 @@ public class HomeViewModelImpl extends ViewModel implements HomeViewModel {
         walletRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                myWallet = snapshot.getValue().toString();
+                if(snapshot.getValue() != null){
+                    myWallet = snapshot.getValue().toString();
+                }
             }
 
             @Override
