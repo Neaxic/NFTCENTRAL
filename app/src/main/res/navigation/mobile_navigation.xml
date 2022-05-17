@@ -23,4 +23,10 @@
         android:label="@string/menu_collection"
         tools:layout="@layout/fragment_collection" />
 
+    <fragment
+        android:id="@+id/nav_single"
+        android:name="com.example.nftportfolio.ui.NFTStats.NFTStatsFragment"
+        android:label="@string/menu_single"
+        tools:layout="@layout/fragment_single" />
+
 </navigation>

@@ -9,15 +9,24 @@ public class NFT {
     private String description;
     private String image_url;
     private String name;
-    private NFTStats collection;
+
+    private Collection collection;
+    private ArrayList<Traits> traits;
 
     private int iconId;
 
     public NFT(String name, int icon) {
         this.name = name;
         iconId = icon;
+
+        collection = new Collection();
     }
+
     public NFT() {
+    }
+
+    public ArrayList<Traits> getTraits() {
+        return traits;
     }
 
     public int getId() {
@@ -36,13 +45,15 @@ public class NFT {
         return image_url;
     }
 
-    public NFTStats getCollection() {
+    public Collection getCollection() {
         return collection;
     }
 
-    public void setCollectionStats(NFTStats collection) {
+    public void setCollection(Collection collection) {
         this.collection = collection;
     }
+
+
 
     public int getIconId() {
         return iconId;

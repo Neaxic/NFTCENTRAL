@@ -2,12 +2,13 @@
     <string name="app_name">NFTPORTFOLIO</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">test</string>
-    <string name="nav_header_subtitle">lol@android.com</string>
+    <string name="nav_header_title">Set Nickname in settings</string>
+    <string name="nav_header_subtitle">yourmail@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">idk yet</string>
+    <string name="action_settings">idk yet upsis</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_collection">Collection viewer</string>
+    <string name="menu_single">NFT Trait viewer</string>
 </resources>

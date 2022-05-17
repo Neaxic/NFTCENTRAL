@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment {
 
             b.setOnClickListner(nft -> {
                 System.out.println(nft.getName());
+                viewModel.setSelected(nft);
 //            Intent i = new Intent(getActivity(), CollectionFragment.class);
 //            i.putExtra("collection", (Parcelable) nft.getCollection());
 //            startActivity(i);

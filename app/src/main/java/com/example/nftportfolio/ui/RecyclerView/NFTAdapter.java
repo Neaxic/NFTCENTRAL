@@ -41,8 +41,9 @@ public class NFTAdapter extends RecyclerView.Adapter<NFTAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //Opdatere ikke efter nye col stats (MutableLiveData / omprioriter i repo) (TODO ikke vigtig)
         holder.name.setText(nfts.get(position).getName());
-        holder.pricing.setText("Current FP: "+nfts.get(position).getCollection().getFloor_price()+", Vol: "+nfts.get(position).getCollection().getOne_day_sales()+ ", Supply: "+nfts.get(position).getCollection().getCount()+", owners: "+nfts.get(position).getCollection().getNum_owners());
+        holder.pricing.setText("Current FP: "+nfts.get(position).getCollection().getStats().getFloor_price()+", Sales: "+nfts.get(position).getCollection().getStats().getOne_day_sales()+ ", Supply: "+nfts.get(position).getCollection().getStats().getCount()+", owners: "+nfts.get(position).getCollection().getStats().getNum_owners());
         try {
             Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(nfts.get(position).getImg()).getContent());
             holder.icon.setImageBitmap(bitmap);

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.nftportfolio.Repository;
+import com.example.nftportfolio.model.NFT;
 import com.example.nftportfolio.model.NFTRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,5 +52,9 @@ public class HomeViewModelImpl extends ViewModel implements HomeViewModel {
 
     public void sort(){
         repo.sortList();
+    }
+
+    public void setSelected(NFT nft){
+        repo.setSelectedNFT(nft);
     }
 }

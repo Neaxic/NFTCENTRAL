@@ -23,10 +23,12 @@ public class NFTRepository {
     private static NFTRepository instance;
     private final MutableLiveData<ArrayList<NFT>> listOfNFTs;
     private MutableLiveData<Double> walletWorth;
+    private MutableLiveData<NFT> selectedNFT;
 
     private NFTRepository(){
          listOfNFTs = new MutableLiveData<>();
          walletWorth = new MutableLiveData<>();
+        selectedNFT = new MutableLiveData<>();
          walletWorth.setValue(0.0);
     }
 
@@ -64,6 +66,7 @@ public class NFTRepository {
                 Log.i("Retrofit", "Something went wrong :(");
             }
         });
+
     }
 
     public void fetchStats(NFT nft){
@@ -75,7 +78,7 @@ public class NFTRepository {
             public void onResponse(Call<NFTStatsResponse> call, Response<NFTStatsResponse> response){
                 System.out.println("LOG: "+response.raw());
                 if(response.isSuccessful()){
-                    nft.setCollectionStats(response.body().getStats());
+                    nft.getCollection().setStats(response.body().getStats());
                     walletWorth.setValue(walletWorth.getValue()+response.body().getStats().getFloor_price());
                 }
             }
@@ -93,12 +96,20 @@ public class NFTRepository {
         listOfNFTs.setValue(new ArrayList<NFT>());
     }
 
+    public void setSelectedNFT(NFT selectedNFT) {
+        this.selectedNFT.setValue(selectedNFT);
+    }
+
+    public NFT getSelectedNFT() {
+        return selectedNFT.getValue();
+    }
+
     public void sortList(){
         Collections.sort(listOfNFTs.getValue(), new Comparator<NFT>() {
         public int compare(NFT n1, NFT n2){
-            if(n1.getCollection().getFloor_price() == n2.getCollection().getFloor_price())
+            if(n1.getCollection().getStats().getFloor_price() == n2.getCollection().getStats().getFloor_price())
                 return 0;
-            return n1.getCollection().getFloor_price() > n2.getCollection().getFloor_price() ? -1 : 1;
+            return n1.getCollection().getStats().getFloor_price() > n2.getCollection().getStats().getFloor_price() ? -1 : 1;
         }
         });
 
