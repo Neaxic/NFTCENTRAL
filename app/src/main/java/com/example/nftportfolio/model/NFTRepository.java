@@ -11,6 +11,8 @@ import com.example.nftportfolio.Webservices.NFTStatsResponse;
 import com.example.nftportfolio.Webservices.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +91,17 @@ public class NFTRepository {
     public void clearData(){
         walletWorth.setValue(0.0);
         listOfNFTs.setValue(new ArrayList<NFT>());
+    }
+
+    public void sortList(){
+        Collections.sort(listOfNFTs.getValue(), new Comparator<NFT>() {
+        public int compare(NFT n1, NFT n2){
+            if(n1.getCollection().getFloor_price() == n2.getCollection().getFloor_price())
+                return 0;
+            return n1.getCollection().getFloor_price() > n2.getCollection().getFloor_price() ? -1 : 1;
+        }
+        });
+
     }
 
     public LiveData<Double> getWalletWorth(){

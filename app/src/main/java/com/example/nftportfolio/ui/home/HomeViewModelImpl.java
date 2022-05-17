@@ -17,17 +17,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeViewModelImpl extends ViewModel implements HomeViewModel {
 
-    private final MutableLiveData<String> mText;
     private NFTRepository repo;
-
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private String myWallet;
 
     public HomeViewModelImpl() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
-
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
@@ -47,15 +42,14 @@ public class HomeViewModelImpl extends ViewModel implements HomeViewModel {
         repo = NFTRepository.getInstance();
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
-
     @Override
     public void refresh() {
         //Slet tidligere data
         repo.clearData();
-
         repo.fetchNFTs(myWallet);
+    }
+
+    public void sort(){
+        repo.sortList();
     }
 }

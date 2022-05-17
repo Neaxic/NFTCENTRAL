@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     RecyclerView nftList;
 
     private FragmentHomeBinding binding;
-    private TextView textView, walletWorth;
+    private TextView assetCount, walletWorth;
     private NFTRepository repo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,11 +58,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void setText() {
-        if(mAuth.getCurrentUser() != null)
-            textView.setText("Hej "+mAuth.getCurrentUser().getEmail());
-        else
-            textView.setText("Ikke logget ind");
-
         //Liste
         nftList = binding.getRoot().findViewById(R.id.rv);
         nftList.hasFixedSize();
@@ -84,15 +79,24 @@ public class HomeFragment extends Fragment {
             walletWorth.setText(""+wallet);
         });
 
+        repo.getListNFTs().observe(getViewLifecycleOwner(), list -> {
+            assetCount.setText(""+list.size());
+        });
+
     }
 
     private void bindings() {
-        textView = binding.textHome;
+        assetCount = binding.assetCount;
         walletWorth = binding.walletWorth;
 
         Button b = binding.refreshBTN;
         b.setOnClickListener(v -> {
             viewModel.refresh();
+        });
+
+        Button d = binding.sortBTN;
+        d.setOnClickListener(v -> {
+            viewModel.sort();
         });
     }
 
