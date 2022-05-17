@@ -1,9 +1,7 @@
 # Project Javelin
+1 Mands gruppe;
 Jeg vil lave en Android app til at kunne danne et overblik over sine værdifulde nft'er. 
-Det er et nyt market uden alt for mange værktøjer, så der er et market der muligvis kunne gavne af det. 
-Har selv nogle ting der er lidt værd i det økosystem, og mangler desperat noget at kunne nemt håndtere mine genstande fra mobilen.
-
-
+Det er et nyt market uden alt for mange værktøjer, så der er et market der muligvis kunne gavne af det - blandt andet mig selv. 
 
 ## Initial Requirements
 - [x] Som bruger kan jeg logge ind så jeg kan se alt mit releveante data.
